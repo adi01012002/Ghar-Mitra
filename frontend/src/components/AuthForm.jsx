@@ -85,8 +85,6 @@
 //   );
 // };
 
-// export default AuthForm;
-
 
 
 import React, { useState } from "react";
