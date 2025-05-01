@@ -112,7 +112,7 @@ export const forgotPassword = async (req, res) => {
     user.resetPasswordToken = token;
     user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
     await user.save();
-    const resetUrl = `http://localhost:5173/reset-password/${token}`; // Adjust frontend URL if needed
+    const resetUrl = `https://ghar-mitra.onrender.com/reset-password/${token}`; // Adjust frontend URL if needed
     await sendOtpEmail(user.email, resetUrl); // Reusing your mail utility
     res.json({ message: "Password reset link sent to your email." });
   } catch (err) {
