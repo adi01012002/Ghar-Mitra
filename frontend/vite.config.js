@@ -15,4 +15,6 @@ export default defineConfig({
       filename: 'dist/bundle-analysis.html',
     }),
   ],
-})
+  base: './',
+}
+)
