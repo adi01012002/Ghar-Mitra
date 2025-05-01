@@ -40,6 +40,7 @@ export const sendOtpEmail = async (toEmail, otp) => {
     subject: 'Your OTP for PG Management',
     html: `<h2>Your OTP is: <b>${otp}</b></h2><p>This OTP is valid for 10 minutes.</p>`
   };
+  
 
   try {
     await transporter.sendMail(mailOptions);
@@ -53,30 +54,4 @@ export const sendOtpEmail = async (toEmail, otp) => {
 
 
 
-
-
-// export const resetLink = async (toEmail, resetLink) => {
-//   const transporter = nodemailer.createTransport({
-//     service: 'gmail',
-//     auth: {
-//       user: process.env.GMAIL_USER,
-//       pass: process.env.GMAIL_PASS,
-//     },
-//   });
-
-//   const mailOptions = {
-//     from: `"PG Management" <${process.env.GMAIL_USER}>`,
-//     to: toEmail,
-//     subject: 'Your Reset Link for PG Management',
-//     html: `<h2>Your Reset Link is: <b>${resetLink}</b></h2><p>This link is valid for 10 minutes.</p>`
-//   };
-
-//   try {
-//     await transporter.sendMail(mailOptions);
-//     return true;
-//   } catch (error) {
-//     console.error('Error sending reset link email:', error);
-//     return false;
-//   }
-// };
 

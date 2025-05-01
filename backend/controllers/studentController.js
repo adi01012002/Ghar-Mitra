@@ -164,61 +164,6 @@ export const deleteStudent = async (req, res) => {
   }
 };
 
-// // Update student details
-// export const updateStudent = async (req, res) => {
-//   const { id } = req.params; // Get student ID from URL parameters
-//   const { username, age, email, address, phone, year } = req.body; // Get the updated data
-
-//   try {
-//     const student = await Student.findById(id).populate("userId"); // Find the student by ID
-//     console.log(student)
-//     if (!student) {
-//       return res.status(404).json({ message: "Student not found" });
-//     }
-
-//     // Update student details
-//     student.username = username || student.username; // Use existing value if not provided
-//     student.age = age || student.age;
-//     student.address = address || student.address;
-//     student.phone = phone || student.phone;
-//     student.year = year || student.year;
-//     student.email = email || student.email;
-//     // // If email is being updated, update the associated user's email
-//     // if (email && email !== student.email) {
-//     //   const user = await User.findById(student.userId);
-//     //   if (user) {
-//     //     user.email = email;
-//     //     await user.save();
-//     //   }
-//     //   student.email = email;
-//     // }
-//     // await student.save(); // Save the updated student
-
-//     // Update the associated user details (username, email)
-//     const user = student.userId; // Retrieve the associated User
-//     // Update the associated user details (email, username)
-//     console.log(user);
-//     if (email) user.email = email;
-//     if (username) user.username = username;
-
-//     // Save updated user and student details
-//     // Save the new user to the database
-//     await user.save();
-//     // await User.save();  // Save the user (email, username)
-//     await student.save(); // Save the student details
-
-//     res.status(200).json(student); // Return the updated student
-//   } catch (error) {
-//     res
-//       .status(500)
-//       .json({ message: "Error updating student", error: error.message });
-//   }
-// };
-
-
-
-
-
 
 
 // Update student details
@@ -240,17 +185,7 @@ export const updateStudent = async (req, res) => {
     student.year = year || student.year;
     student.email = email || student.email;
     // // If email is being updated, update the associated user's email
-    // if (email && email !== student.email) {
-    //   const user = await User.findById(student.userId);
-    //   if (user) {
-    //     user.email = email;
-    //     await user.save();
-    //   }
-    //   student.email = email;
-    // }
-    // await student.save(); // Save the updated student
 
-    // Update the associated user details (username, email)
     const user = student.userId; // Retrieve the associated User
     // Update the associated user details (email, username)
     console.log(user);
@@ -296,57 +231,7 @@ export const getStudentById = async (req, res) => {
   }
 };
 
-// // Student Registration (Add Student)
-// export const registerStudent = async (req, res) => {
-//   try {
-//     const { username, email, password, pgId } = req.body;
 
-//       // Validate fields
-//       if (!username || !email || !password || !pgId) {
-//         return res.status(400).json({ message: "All fields are required" });
-//       }
-//     // Check if the email already exists
-//     const existingUser = await User.findOne({ email });
-//     if (existingUser) {
-//       return res.status(400).json({ message: 'User already exists' });
-//     }
-
-//     // Hash the password
-//     // const hashedPassword = await bcrypt.hash(password, 10);
-
-//     // Create a new user (Student)
-//     const user = new User({
-//       username,
-//       email,
-//       password,
-//       role: 'student', // The role should be 'student'
-//     });
-
-//     // Save the user to the database
-//     await user.save();
-
-//     // Create a Student document, linking the User to a PG
-//     const student = new Student({
-//       userId: user._id,
-//       pgId, // Reference to the PG the student is associated with
-//     });
-
-//     // Save the Student to the database
-//     await student.save();
-
-//     // Generate a JWT token
-//     const token = generateToken(user._id, 'student');
-
-//     // Respond with the token
-//     res.status(201).json({
-//       message: 'Student registered successfully',
-//       token,
-//     });
-//   } catch (error) {
-//     console.error('Error during student registration:', error);
-//     res.status(500).json({ message: 'Internal Server Error' });
-//   }
-// };
 
 export const loginStudent = async (req, res) => {
   try {
@@ -389,20 +274,6 @@ export const loginStudent = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
-
-// Fetch Student Profile
-// export const getStudentProfile = async (req, res) => {
-//   const { id } = req.params;
-//   try {
-//     const student = await Student.findById(id).select("-password"); // Exclude password
-//     if (!student) {
-//       return res.status(404).json({ message: "Student not found" });
-//     }
-//     res.status(200).json(student);
-//   } catch (error) {
-//     res.status(500).json({ message: "Server Error", error: error.message });
-//   }
-// };
 
 export const getStudentProfile = async (req, res) => {
   // console.log(req.user)
