@@ -6,7 +6,7 @@ import { FaUserCircle, FaChevronDown, FaSignOutAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { logoutUser } from "../redux/actions/authActions";
-// import "../styles/PaymentHistory.css"; 
+
 
 
 const PaymentHistory = () => {

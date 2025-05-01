@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const OtpVerification = ({ email, onVerified }) => {
   const [otp, setOtp] = useState("");
@@ -16,7 +17,7 @@ const OtpVerification = ({ email, onVerified }) => {
       const cleanEmail = email.trim();
       const cleanOtp = otp.trim();
       console.log("Verifying OTP with:", { email: cleanEmail, otp: cleanOtp });
-      const res = await axios.post("http://localhost:8090/auth/verify-otp", { email: cleanEmail, otp: cleanOtp });
+      const res = await axios.post(`${API_BASE_URL}/auth/verify-otp`, { email: cleanEmail, otp: cleanOtp });
       setMessage(res.data.message);
       setTimeout(() => {
         if (onVerified) {

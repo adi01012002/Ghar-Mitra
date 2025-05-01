@@ -1,14 +1,14 @@
 
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8090"; // Replace with your actual base URL
-
+// const BASE_URL = "http://localhost:8090"; // Replace with your actual base URL
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const register = async (userData) => {
   try {
     console.log("Registering user with data:", userData);
 
-    const response = await axios.post(`${BASE_URL}/auth/register`, userData, {
+    const response = await axios.post(`${API_BASE_URL}/auth/register`, userData, {
       headers: { "Content-Type": "application/json" },
     });
 
@@ -49,7 +49,7 @@ export const login = async (userData) => {
   console.log(userData)
   try {
     console.log("Logging in user with data:", userData);
-    const response = await axios.post(`${BASE_URL}/auth/login`, userData, {
+    const response = await axios.post(`${API_BASE_URL}/auth/login`, userData, {
       headers: { "Content-Type": "application/json" },
     });
     console.log(response)

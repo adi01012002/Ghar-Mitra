@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IconHome, IconUsers, IconBed, IconArrowRight } from '@tabler/icons-react';
 import LoadingSpinner from './LoadingSpinner';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const PGListings = () => {
   const [pgData, setPgData] = useState([]);
@@ -12,7 +13,7 @@ const PGListings = () => {
   useEffect(() => {
     const fetchPGData = async () => {
       try {  // http://localhost:8090
-        const response = await fetch('http://localhost:8090/pg/all-pg-data');
+        const response = await fetch(`${API_BASE_URL}/pg/all-pg-data`);
         console.log(response)
         if (!response.ok) {
           throw new Error('Failed to fetch PG data');

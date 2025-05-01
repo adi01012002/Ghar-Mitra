@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 const AuthForm = ({ isLogin, onSubmit }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, error } = useSelector((state) => state.auth);
+  const { loading} = useSelector((state) => state.auth);
 
   const [formData, setFormData] = useState({
     username: "",

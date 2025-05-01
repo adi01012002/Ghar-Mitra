@@ -2,7 +2,8 @@
 
 
 import axios from "axios";
-const BASE_URL = "http://localhost:8090";
+// const BASE_URL = "http://localhost:8090";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const addStudent = async (studentData) => {
   const token = localStorage.getItem("token");
@@ -14,7 +15,7 @@ export const addStudent = async (studentData) => {
   
   try {
     const response = await axios.post(
-      `${BASE_URL}/students/add`,
+      `${API_BASE_URL}/students/add`,
       studentData,
       config
     );
@@ -36,7 +37,7 @@ export const fetchStudents = async () => {
 
   const config = { headers: { Authorization: `Bearer ${token}` } };
   try {
-      const response = await axios.get(`${BASE_URL}/students/list`, config);
+      const response = await axios.get(`${API_BASE_URL}/students/list`, config);
       console.log(response)
       console.log(response.data)
       
@@ -64,7 +65,7 @@ export const fetchStudentByIdService = async (id) => {
     const config = { headers: { Authorization: `Bearer ${token}` } };
     
     // Make the API request to fetch the specific student by ID
-    const response = await axios.get(`${BASE_URL}/students/${id}`, config);
+    const response = await axios.get(`${API_BASE_URL}/students/${id}`, config);
     console.log(response)
     console.log('Fetched student from API:', response.data);
     
@@ -77,7 +78,7 @@ export const deleteStudent=async (id)=>{
   const token=localStorage.getItem("token");
   if (!token) throw new Error("No token found");
   const config ={headers:{Authorization:`Bearer ${token}`}};
-  const response =await axios.delete(`${BASE_URL}/students/${id}`,config);
+  const response =await axios.delete(`${API_BASE_URL}/students/${id}`,config);
   alert("Student deleted successfully!");
   return response.data;
 }
@@ -90,7 +91,7 @@ export const updateStudent = async (id, updatedData) => {
     const token=localStorage.getItem("token");
     if (!token) throw new Error("No token found");
     const config ={headers:{Authorization:`Bearer ${token}`}};
-  const { data } = await axios.put(`${BASE_URL}/students/edit/${id}`, updatedData,config);
+  const { data } = await axios.put(`${API_BASE_URL}/students/edit/${id}`, updatedData,config);
   console.log(data)
   return data;
 };
@@ -100,7 +101,7 @@ export const updateStudent = async (id, updatedData) => {
 
 export const getStudentProfile = async (id) => {
   try {
-    const response = await axios.get(`${BASE_URL}/students/${id}/profile`, {
+    const response = await axios.get(`${API_BASE_URL}/students/${id}/profile`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`, // Assuming JWT is stored in localStorage
       },
@@ -116,7 +117,7 @@ export const getStudentProfile = async (id) => {
 // Fetch Student Payments
 export const getStudentPayments = async (id) => {
   try {
-    const response = await axios.get(`${BASE_URL}/students/${id}/payments`,{
+    const response = await axios.get(`${API_BASE_URL}/students/${id}/payments`,{
     headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`, // Assuming JWT is stored in localStorage
       }

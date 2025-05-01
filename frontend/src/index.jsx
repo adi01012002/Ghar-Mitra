@@ -1,9 +1,7 @@
 
-import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
-import { DarkModeProvider } from "./context/DarkModeContext";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose } from "redux";
 import {thunk} from "redux-thunk"; 
@@ -19,13 +17,11 @@ const store = createStore(
     composeEnhancers(applyMiddleware(thunk))
 );
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+  // <StrictMode>
     <Provider store={store}>
-      <DarkModeProvider>
         <BrowserRouter> 
           <App />
         </BrowserRouter>
-      </DarkModeProvider>
     </Provider>
-  </StrictMode>
+  // </StrictMode>
 );

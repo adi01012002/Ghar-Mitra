@@ -57,15 +57,6 @@ const Dashboard = () => {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      {/* <section className="flex flex-col items-center justify-center py-16">
-        <h1 className="text-4xl font-extrabold text-purple-700 mb-4 text-center">
-          Welcome, {user?.username || "PG Owner"}!
-        </h1>
-        <p className="text-lg text-gray-700 mb-8 text-center max-w-2xl">
-          Effortlessly manage your PGs, track students, handle payments, and grow your business with our all-in-one dashboard.
-        </p>
-      </section> */}
 
       {/* Dashboard Main Grid */}
       <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
