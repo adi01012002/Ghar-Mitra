@@ -92,6 +92,7 @@ import { createServer } from 'http'; // Add this import
 
 // const http = require('http');
 // import  { Server } from 'socket.io';
+const PORT=process.env.PORT
 
 import authRoutes from "./routes/authRoutes.js";
 import pgRoutes from "./routes/pgRoutes.js";
@@ -151,6 +152,6 @@ db.on("open", () => {
 });
 
 // Start the server
-httpServer.listen(8090, () => {
-  console.log("Server is running on port 8090");
+httpServer.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
