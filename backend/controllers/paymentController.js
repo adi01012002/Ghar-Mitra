@@ -1,8 +1,11 @@
 // controllers/paymentController.js
 import Payment from '../models/paymentModel.js';
 import Student from '../models/studentModel.js';
+// import Account from "../models/accountModel.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+dotenv.config();
+
 // // Get all payments for a specific student
 // export const getPaymentsByStudent = async (req, res) => {
 //   try {
@@ -151,3 +154,45 @@ export const getPaymentsByUser = async (req, res) => {
     res.status(500).json({ message: "Error fetching payments", error: error.message });
   }
 };
+
+
+
+// const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+// export const createPaymentSession = async (req, res) => {
+//   const { amount, studentId, pgOwnerId } = req.body;
+
+//   try {
+//     const account = await Account.findOne({ pgOwner: pgOwnerId });
+//     if (!account || !account.stripeAccountId) {
+//       return res.status(400).json({ message: "PG Owner's Stripe account not set up." });
+//     }
+
+//     const session = await Stripe.checkout.sessions.create({
+//       payment_method_types: ["card"],
+//       line_items: [
+//         {
+//           price_data: {
+//             currency: "inr",
+//             product_data: { name: "PG Rent Payment" },
+//             unit_amount: amount * 100,
+//           },
+//           quantity: 1,
+//         },
+//       ],
+//       mode: "payment",
+//       success_url: `${process.env.FRONTEND_URL}/success`,
+//       cancel_url: `${process.env.FRONTEND_URL}/cancel`,
+//       payment_intent_data: {
+//         application_fee_amount: Math.round(amount * 0.02 * 100), // 2% fee
+//         transfer_data: {
+//           destination: account.stripeAccountId,
+//         },
+//       },
+//     });
+
+//     res.json({ url: session.url });
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// };

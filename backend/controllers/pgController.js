@@ -98,3 +98,32 @@ export const fetchOwnerPGs = async (req, res) => {
       res.status(500).json({ message: 'Error fetching PGs for owner', error });
   }
 };
+
+
+
+export const PGData = async (req, res) => {
+  try {
+    // console.log(userId,req.user)
+
+    // Fetch all PGs for the logged-in user
+    const pgs = await PG.find();
+    // console.log(pgs)
+
+    if (!pgs || pgs.length === 0) {
+      return res.status(404).json({ message: 'No PGs found' });
+    }
+
+    // Map PGs to the required format
+    const pgData = pgs.map((pg) => ({
+      name: pg.name,
+      _id:pg._id,
+      totalStudents: pg.students.length,
+      availableRooms: pg.availableRooms,
+      availableBeds: pg.availableBeds,
+    }));
+
+    res.status(200).json(pgData);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching PG data', error });
+  }
+};

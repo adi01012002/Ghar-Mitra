@@ -1,74 +1,16 @@
-// // src/components/Dashboard.jsx
-
-// import React from "react";
-// import { useDispatch } from "react-redux";
-// import { useNavigate } from "react-router-dom";
-// import { useSelector } from 'react-redux';
-// import { logoutUser } from "../redux/actions/authActions"; // Import your logout action
-// import '../styles/Dashboard.css';
-
-// const Dashboard = () => {
-//   const dispatch = useDispatch();
-//   const navigate = useNavigate();
-
-//   const handleLogout = () => {
-//     // Call the logout action from Redux
-//     dispatch(logoutUser());
-//     // Redirect to the home page or login page after logout
-//     navigate("/");
-//   };
-//   const user = useSelector((state) => state.auth.user); // Get user info from Redux
-//   // const { student, loading, error } = useSelector((state) => state.students || {});
-//   // const { loading, error} = useSelector((state) => state.auth);
-//     // const navigate = useNavigate();
-
-//     // Function to navigate to other pages
-//     const handleNavigation = (path) => {
-//         navigate(path);
-//     };
-
-//   return (
-//     <div className="dashboard-container">
-//       <h1>Dashboard</h1>
-//       <p>PG Management System!</p>
-//       <button onClick={handleLogout}>Logout</button>
-//       <h1 className="welcome-message">Welcome to your Dashboard, {user?.username || "PG Owner"}!</h1>
-//       <div className="dashboard-actions">
-//         <button onClick={() => handleNavigation("/add-student")}>
-//           Add Student
-//         </button>{" "}
-//         <button onClick={() => handleNavigation("/students")}>
-//           Show All Students
-//         </button>
-//         <button onClick={() => handleNavigation("/auth/payment-history")}>
-//           My Payments
-//         </button>
-//         <button onClick={() => handleNavigation("/auth/register-pg")}>
-//           Register My Pg
-//         </button>
-//         <button onClick={() => handleNavigation("/auth/pg-status")}>
-//           My Pg Status
-//         </button>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Dashboard;
-
-
-
-import React from "react";
+import React, { useState,} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { logoutUser } from "../redux/actions/authActions"; // Import your logout action
-import "../styles/Dashboard.css";
-import { FaUserPlus, FaListAlt, FaMoneyBill, FaHome, FaBuilding } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { logoutUser } from "../redux/actions/authActions";
+import { FaUserPlus, FaListAlt, FaMoneyBill, FaHome, FaBuilding, FaUserCircle, FaChevronDown, FaUser, FaSignOutAlt, FaTimes } from "react-icons/fa";
+
 const Dashboard = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const user = useSelector((state) => state.auth.user);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
 
   const handleLogout = () => {
     dispatch(logoutUser());
@@ -80,43 +22,112 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="dashboard-layout">
+    <div className="min-h-screen bg-gradient-to-b from-purple-100 to-white">
       {/* Navbar */}
-      <div className="navbar">
-        <div className="logo">PG Management</div>
-        <div className="user-info">
-          Welcome, {user?.username || "PG Owner"}!
-          <button className="logout-button" onClick={handleLogout}>
-            Logout
+      <nav className="flex items-center justify-between bg-white px-8 py-4 shadow-md border-b border-purple-200">
+         <Link to="/owner-home" className="flex items-center gap-2">
+                        <h1 className="text-4xl font-extrabold mb-4 text-purple-600 tracking-tight text-center">
+                          Ghar Mitra 🏡🤝
+                        </h1>
+                      </Link>
+        <div className="relative">
+          <button
+            className="flex items-center space-x-2 focus:outline-none"
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            <FaUserCircle className="text-3xl text-purple-600" />
+            <FaChevronDown className="text-gray-500 ml-1" />
           </button>
+          {menuOpen && (
+            <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-xl shadow-lg z-50">
+              <button
+                className="w-full flex items-center px-4 py-2 hover:bg-purple-100 text-gray-800"
+                onClick={() => setShowProfile(true)}
+              >
+                <FaUser className="mr-2" /> Profile
+              </button>
+              <button
+                className="w-full flex items-center px-4 py-2 hover:bg-purple-100 text-gray-800"
+                onClick={handleLogout}
+              >
+                <FaSignOutAlt className="mr-2" /> Logout
+              </button>
+            </div>
+          )}
         </div>
+      </nav>
+
+      {/* Hero Section */}
+      {/* <section className="flex flex-col items-center justify-center py-16">
+        <h1 className="text-4xl font-extrabold text-purple-700 mb-4 text-center">
+          Welcome, {user?.username || "PG Owner"}!
+        </h1>
+        <p className="text-lg text-gray-700 mb-8 text-center max-w-2xl">
+          Effortlessly manage your PGs, track students, handle payments, and grow your business with our all-in-one dashboard.
+        </p>
+      </section> */}
+
+      {/* Dashboard Main Grid */}
+      <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+        {/* Sidebar Navigation */}
+        <aside className="md:col-span-1 bg-white rounded-xl shadow-lg border border-purple-200 p-6 flex flex-col gap-4 mb-8 md:mb-0">
+          <button className="flex items-center gap-2 py-2 px-4 rounded-lg hover:bg-purple-50 text-purple-700 font-semibold" onClick={() => handleNavigation("/add-student")}> <FaUserPlus /> Add Student </button>
+          <button className="flex items-center gap-2 py-2 px-4 rounded-lg hover:bg-purple-50 text-purple-700 font-semibold" onClick={() => handleNavigation("/students")}> <FaListAlt /> All Students </button>
+          <button className="flex items-center gap-2 py-2 px-4 rounded-lg hover:bg-purple-50 text-purple-700 font-semibold" onClick={() => handleNavigation("/auth/payment-history")}> <FaMoneyBill /> My Payments </button>
+          <button className="flex items-center gap-2 py-2 px-4 rounded-lg hover:bg-purple-50 text-purple-700 font-semibold" onClick={() => handleNavigation("/auth/register-pg")}> <FaHome /> Register PG </button>
+          <button className="flex items-center gap-2 py-2 px-4 rounded-lg hover:bg-purple-50 text-purple-700 font-semibold" onClick={() => handleNavigation("/auth/pg-status")}> <FaBuilding /> My PG Status </button>
+        </aside>
+        {/* Main Content */}
+        <main className="md:col-span-3 bg-white rounded-xl shadow-lg border border-purple-200 p-8">
+          <h2 className="text-3xl font-extrabold mb-6 text-purple-600 tracking-tight">Dashboard Overview</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div className="bg-purple-50 p-6 rounded-xl shadow">
+              <h3 className="text-xl font-bold mb-2 text-purple-600">Student Management</h3>
+              <p className="text-gray-700">Add, edit, and track all your PG students in one place with ease.</p>
+            </div>
+            <div className="bg-purple-50 p-6 rounded-xl shadow">
+              <h3 className="text-xl font-bold mb-2 text-purple-600">PG Listings</h3>
+              <p className="text-gray-700">Register and manage multiple PG properties with detailed information.</p>
+            </div>
+            <div className="bg-purple-50 p-6 rounded-xl shadow">
+              <h3 className="text-xl font-bold mb-2 text-purple-600">Payments & Analytics</h3>
+              <p className="text-gray-700">Track payments, view analytics, and get insights to optimize your business.</p>
+            </div>
+            <div className="bg-purple-50 p-6 rounded-xl shadow">
+              <h3 className="text-xl font-bold mb-2 text-purple-600">Support & Feedback</h3>
+              <p className="text-gray-700">Get help and give feedback to improve your experience.</p>
+            </div>
+          </div>
+          <div className="text-center text-gray-500 text-sm">Select an option from the sidebar to get started!</div>
+        </main>
       </div>
 
-      {/* Sidebar */}
-      <div className="sidebar">
-        <button onClick={() => handleNavigation("/add-student")}>
-        <FaUserPlus /> Add Student
-        </button>
-        <button onClick={() => handleNavigation("/students")}>
-          <FaListAlt /> All Students
-        </button>
-        <button onClick={() => handleNavigation("/auth/payment-history")}>
-        <FaMoneyBill /> My Payments
-        </button>
-        <button onClick={() => handleNavigation("/auth/register-pg")}>
-        <FaHome /> Register PG
-        </button>
-        <button onClick={() => handleNavigation("/auth/pg-status")}>
-        <FaBuilding /> My PG Status
-        </button>
-      </div>
-
-      {/* Main Content */}
-      <div className="main-content">
-        <h1>Dashboard</h1>
-        <p>Manage your PGs efficiently from here.</p>
-        <p>Select an option from the sidebar to get started!</p>
-      </div>
+      {/* Profile Modal */}
+      {showProfile && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-white/60 backdrop-blur-sm">
+          <div className="relative">
+            <button
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 bg-white rounded-full p-2 shadow"
+              onClick={() => setShowProfile(false)}
+            >
+              <FaTimes className="text-gray-500" />
+            </button>
+            <div className="p-8 bg-white rounded-2xl shadow-xl border border-gray-200 min-w-[300px]">
+              <h2 className="text-2xl font-bold text-center mb-4 text-purple-700">Owner Profile</h2>
+              <div className="space-y-3">
+                <div className="flex flex-col md:flex-row md:items-center gap-2">
+                  <span className="font-semibold text-gray-700 w-32">Username:</span>
+                  <span className="text-lg text-gray-900">{user?.username || "-"}</span>
+                </div>
+                <div className="flex flex-col md:flex-row md:items-center gap-2">
+                  <span className="font-semibold text-gray-700 w-32">Email:</span>
+                  <span className="text-lg text-gray-900">{user?.email || "-"}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

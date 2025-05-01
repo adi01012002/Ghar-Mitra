@@ -14,7 +14,7 @@ export const addPaymentService = async (studentId, paymentData) => {
       config
     );
     alert("Payment successfully added!");
-    console.log(response.data)
+    // console.log(response.data)
     return response.data; //payments
   } catch (error) {
     throw error.response ? error.response.data : new Error("Network error");

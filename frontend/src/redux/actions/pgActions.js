@@ -30,19 +30,3 @@ export const fetchPGDataAction = () => async (dispatch) => {
 };
 
 
-// src/redux/actions/pgActions.js
-// import { fetchOwnerPGs } from '../../services/pgServices';
-
-// export const fetchOwnerPGsAction = (userId) => async (dispatch) => {
-//     try {
-//         dispatch({ type: 'FETCH_OWNER_PGS_REQUEST' });
-//         const data = await fetchOwnerPGs(userId);
-//         console.log(data)
-//         dispatch({ type: 'FETCH_OWNER_PGS_SUCCESS', payload: data });
-//     } catch (error) {
-//         dispatch({
-//             type: 'FETCH_OWNER_PGS_FAILURE',
-//             payload: error.response?.data?.message || 'Error fetching PGs',
-//         });
-//     }
-// };

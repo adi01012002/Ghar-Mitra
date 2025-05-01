@@ -1,180 +1,91 @@
-// src/components/StudentList.jsx
-// import React, { useEffect } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { fetchStudentsAction } from '../redux/actions/studentActions';
-// import Student from './Student';
 
-// const StudentList = () => {
-//     const dispatch = useDispatch();
-//     const { students = [], loading, error } = useSelector((state) => state.students || {});
-//     // console.log("Students in StudentList after FETCH_STUDENTS_SUCCESS:", students);
-    
-//     // const { students, loading, error } = useSelector((state) => state.student);
-//     // const students = useSelector((state) => state.students);
-
-//     useEffect(() => {
-//         dispatch(fetchStudentsAction());
-//     }, [dispatch]);
-
-//     const handleDetailsClick = (students) => {
-//         console.log('Student Details:', students);
-//     };
-
-//     const handleUpdateClick = (student) => {
-//         console.log('Update Student:', student);
-//     };
-
-//     const handleDeleteClick = (id) => {
-//         console.log('Delete Student ID:', id);
-//     };
-//     const handlePaymentClick = (id) => {
-//         console.log('Payment of Student ID:', id);
-//     };
-
-//     // const validStudents = Array.isArray(students) ? students : [];
-//     // console.log("Is students an array?", Array.isArray(students));
-//     // console.log("validStudents:", validStudents);
-
-
-//     if (loading) return <p>Loading...</p>;
-//     if (error) return <p>{error}</p>;
-//     // console.log(students)
-//     // const students = Array.isArray(students) ? students : [students];
-    
-
-//     return (
-//         <div>
-//             <h2>Student List</h2>
-//             {students.length === 0 ? (
-//                 <p>No students found</p>
-//             ) : (
-//                 students.map((student) => (
-//                     <Student
-//                         key={student._id}
-//                         student={student}
-//                         onDetailsClick={handleDetailsClick}
-//                         onUpdateClick={handleUpdateClick}
-//                         onDeleteClick={handleDeleteClick}
-//                         onPaymentClick={handlePaymentClick}
-//                     />
-//                 ))
-//             )}
-//         </div>
-//     );
-// };
-
-
-
-// export default StudentList;
-
-
-
-
-// src/components/StudentList.jsx
-// import React, { useEffect, useState } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { fetchStudentsAction } from '../redux/actions/studentActions';
-// import Student from './Student';
-
-// const StudentList = () => {
-//     const dispatch = useDispatch();
-//     const { students = [], loading, error } = useSelector((state) => state.students || {});
-//     const [expandedStudentId, setExpandedStudentId] = useState(null);  // Track which student is expanded
-
-//     useEffect(() => {
-//         dispatch(fetchStudentsAction());
-//     }, [dispatch]);
-
-//     const handleDetailsClick = (student) => {
-//         setExpandedStudentId(prevId => prevId === student._id ? null : student._id);
-//     };
-
-//     const handleUpdateClick = (student) => {
-//         console.log('Update Student:', student);
-//     };
-
-//     const handleDeleteClick = (id) => {
-//         console.log('Delete Student ID:', id);
-//     };
-
-//     const handlePaymentClick = (id) => {
-//         console.log('Payment History for Student ID:', id);
-//     };
-
-//     if (loading) return <p>Loading...</p>;
-//     if (error) return <p>{error}</p>;
-
-//     return (
-//         <div>
-//             <h2>Student List</h2>
-//             {students.length === 0 ? (
-//                 <p>No students found</p>
-//             ) : (
-//                 students.map((student) => (
-//                     <Student
-//                         key={student._id}
-//                         student={student}
-//                         onDetailsClick={() => handleDetailsClick(student)}
-//                         onUpdateClick={() => handleUpdateClick(student)}
-//                         onDeleteClick={() => handleDeleteClick(student._id)}
-//                         onPaymentClick={() => handlePaymentClick(student._id)}
-//                         showDetails={expandedStudentId === student._id}
-//                     />
-//                 ))
-//             )}
-//         </div>
-//     );
-// };
-
-// export default StudentList;
-
-
-// src/components/StudentList.jsx
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchStudentsAction } from '../redux/actions/studentActions';
-// import { useHistory } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate, Link } from 'react-router-dom';
+import { FaUserCircle, FaChevronDown, FaSignOutAlt } from 'react-icons/fa';
+import { logoutUser } from '../redux/actions/authActions';
 
 const StudentList = () => {
     const dispatch = useDispatch();
-    // const history = useHistory();
     const { students = [], loading, error } = useSelector((state) => state.students || {});
     const navigate = useNavigate(); // Initialize useNavigate
+    const [menuOpen, setMenuOpen] = useState(false);
 
     useEffect(() => {
         dispatch(fetchStudentsAction());
     }, [dispatch]);
 
     const handleViewMoreClick = (id) => {
-        // history.push(`/student/${id}`);
-navigate(`/student/${id}`);
+        navigate(`/student/${id}`);
     };
-    // Function to navigate to other pages
-const handleNavigation = (path) => {
-    navigate(path);
-};
+
+    const handleLogout = () => {
+        dispatch(logoutUser());
+        navigate('/login');
+    };
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>{error}</p>;
 
     return (
-        <div>
-        <button onClick={() => handleNavigation("/auth/dashboard")}>
-            Go To Dashboard
-        </button>
-            <h2>Student List</h2>
-            {students.length === 0 ? (
-                <p>No students found</p>
-            ) : (
-                students.map((student) => (
-                    <div key={student._id} className="student-card">
-                        <p><strong>{student.username}</strong></p>
-                        <p><strong>Pg-Name:</strong> {student?.pgId?.name}</p>
-                        <button onClick={() => handleViewMoreClick(student._id)}>View More Details</button>
-                    </div>
-                ))
-            )}
+        <div className="min-h-screen bg-gradient-to-b from-purple-100 to-white">
+            <nav className="flex items-center justify-between bg-white px-8 py-4 shadow-md border-b border-purple-200">
+                      <Link to="/auth/dashboard" className="flex items-center gap-2">
+                                <h1 className="text-4xl font-extrabold mb-4 text-purple-600 tracking-tight text-center">
+                                  Ghar Mitra 🏡🤝
+                                </h1>
+                              </Link>
+                      <div className="relative">
+                        <button
+                          className="flex items-center space-x-2 focus:outline-none"
+                          onClick={() => setMenuOpen((open) => !open)}
+                        >
+                          <FaUserCircle className="text-3xl text-purple-600" />
+                          <FaChevronDown className="text-gray-500 ml-1" />
+                        </button>
+                        {menuOpen && (
+                          <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-xl shadow-lg z-50">
+                            {/* <button
+                              className="w-full flex items-center px-4 py-2 hover:bg-purple-100 text-gray-800"
+                              onClick={() => setShowProfile(true)}
+                            >
+                              <FaUser className="mr-2" /> Profile
+                            </button> */}
+                            <button
+                              className="w-full flex items-center px-4 py-2 hover:bg-purple-100 text-gray-800"
+                              onClick={handleLogout}
+                            >
+                              <FaSignOutAlt className="mr-2" /> Logout
+                            </button>
+                          </div>
+                        )}
+                      </div>
+            </nav>
+            {/* Student List */}
+            <section className="py-12 px-4 sm:px-8 bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+                <div className="max-w-3xl mx-auto">
+                    <h2 className="text-3xl font-extrabold text-center mb-8 text-purple-700 tracking-tight">Student List</h2>
+                    {students.length === 0 ? (
+                        <p className="text-center text-gray-500">No students found</p>
+                    ) : (
+                        <div className="grid gap-6">
+                            {students.map((student) => (
+                                <div key={student._id} className="bg-white rounded-2xl p-6 shadow-lg border border-purple-100 hover:shadow-2xl transition-all">
+                                    <p className="text-xl font-bold text-purple-600 mb-2">{student.username}</p>
+                                    <p className="mb-2"><span className="font-semibold">Pg-Name:</span> {student?.pgId?.name}</p>
+                                    <button
+                                        className="mt-2 px-4 py-2 rounded-xl bg-purple-600 text-white font-semibold shadow hover:bg-purple-700 transition-colors"
+                                        onClick={() => handleViewMoreClick(student._id)}
+                                    >
+                                        View More Details
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </section>
         </div>
     );
 };

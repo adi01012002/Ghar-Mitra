@@ -3,7 +3,7 @@
 
 import React from 'react';
 import AuthForm from '../components/AuthForm';
-import '../styles/LoginPage.css';
+
 
 const LoginPage = ({ onSubmit }) => {
     return (

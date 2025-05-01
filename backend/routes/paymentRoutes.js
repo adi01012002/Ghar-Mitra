@@ -1,6 +1,6 @@
 // routes/paymentRoutes.js
 import express from 'express';
-import { getPaymentsByStudent, addPayment,getPaymentsByUser } from '../controllers/paymentController.js';
+import { getPaymentsByStudent, addPayment,getPaymentsByUser, } from '../controllers/paymentController.js';
 import authMiddleware from '../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -13,6 +13,8 @@ router.get('/history', authMiddleware, getPaymentsByUser);
 
 // Add a payment for a student
 router.post('/:id/add', authMiddleware, addPayment);
+
+// router.post("/create-session", createPaymentSession);
 // router.post('/:id/add-payment', authMiddleware, addPayment);
 
 export default router;

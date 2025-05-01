@@ -8,17 +8,16 @@ import pgReducer  from './reducers/pgReducer';
 import authReducer from './reducers/authReducers.js';
 import paymentReducer from './reducers/paymentReducer.js';
 
-// Combine reducers
 const rootReducer = combineReducers({
-    auth: authReducer,
+
     students: studentReducer,
     payments:paymentReducer,
+   
+    auth: authReducer,
     pg: pgReducer,
+    
 });
 
-// export default combineReducers({
-//     posts,
-//     auth,
-//   });
+
 
 export default rootReducer;

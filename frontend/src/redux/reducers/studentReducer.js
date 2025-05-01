@@ -74,33 +74,3 @@ const studentReducer = (state = initialState, action) => {
 
 export default studentReducer;
 
-// const initialState = {
-//     students: [],
-//     loading: false,
-//     error: null
-// };
-
-// const studentReducer = (students=[], action) => {
-//     console.log(students)
-//     console.log('Action:', action);
-//     console.log('Current student State:', students);
-//     switch (action.type) {
-//         case 'ADD_STUDENT_REQUEST':
-//             return { ...students, loading: true };
-//         case 'ADD_STUDENT_SUCCESS':
-//             return { ...students, loading: false, students: [...students, action.payload] };
-//         case 'ADD_STUDENT_FAILURE':
-//             return { ...students, loading: false, error: action.payload };
-//         case 'FETCH_STUDENTS_REQUEST':
-//             return { ...students, loading: true ,error: null };
-//         case 'FETCH_STUDENTS_SUCCESS':
-//             return { ...students, loading: false, students: action.payload };
-//         case 'FETCH_STUDENTS_FAIL':
-//             return { ...students, loading: false, error: action.payload };
-
-//         default:
-//             return students;
-//     }
-// };
-
-// export default studentReducer;

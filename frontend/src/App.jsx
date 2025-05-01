@@ -1,45 +1,49 @@
-import React from "react";
+import React, { lazy, Suspense, memo } from "react";
 import { Routes, Route } from "react-router-dom";
-import Dashboard from "./pages/Dashboard";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate, useLocation } from "react-router-dom";
+import { login, register } from "./services/authServices";
 import HomePage from "./pages/HomePage";
-import LoginPage from "./components/LoginPage"; // Login form component
-import RegisterPage from "./components/RegisterPage"; // Register form component
-import { login, register } from "./services/authServices"; // Ensure correct import
-import StudentForm from "./components/StudentForm";
-import StudentList from "./components/StudentList";
-import StudentDetails from "./components/StudentDetails";
-import AddPayment from "./components/AddPayment";
-import PaymentHistory from "./components/PaymentHistory";
-import StudentPayment from "./components/StudentPayment";
-import PgRegistrationForm from "./components/PgRegistrationForm";
-import PgData from "./components/pgData";
-import StudentDashboard from "./components/StudentDashboard";
-import StudentProfile from "./components/StudentProfile";
-import StudentPayments from "./components/StudentPayments";
+import LoadingSpinner from "./components/LoadingSpinner"; // Create this component
+
+// Memoized components
+const MemoizedLoginPage = memo(lazy(() => import("./components/LoginPage")));
+const MemoizedRegisterPage = memo(lazy(() => import("./components/RegisterPage")));
+
+// Lazy loaded components
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const OwnerHome = lazy(() => import("./pages/OwnerHome"));
+const StudentHome = lazy(() => import("./pages/StudentHome"));
+const StudentForm = lazy(() => import("./components/StudentForm"));
+const StudentList = lazy(() => import("./components/StudentList"));
+const StudentDetails = lazy(() => import("./components/StudentDetails"));
+const AddPayment = lazy(() => import("./components/AddPayment"));
+const PaymentHistory = lazy(() => import("./components/PaymentHistory"));
+const StudentPayment = lazy(() => import("./components/StudentPayment"));
+const PgRegistrationForm = lazy(() => import("./components/PgRegistrationForm"));
+const PgData = lazy(() => import("./components/pgData"));
+const StudentDashboard = lazy(() => import("./components/StudentDashboard"));
+const StudentProfile = lazy(() => import("./components/StudentProfile"));
+const StudentPayments = lazy(() => import("./components/StudentPayments"));
+const PGListings = lazy(() => import("./components/PGListings"));
+const Verify = lazy(() => import("./pages/Verify"));
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 
 const App = () => {
-  const navigate = useNavigate(); // Initialize useNavigate
-//   const studentId = req.params.id;
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const handleLogin = async (userData) => {
     try {
       const data = await login(userData);
       console.log("Logged in successfully:", data);
-      // Redirect to dashboard on successful login
-      // navigate("auth/dashboard");
-
-      // Check the role and navigate accordingly
+      
       if (data.role === "student") {
-        // navigate("student/dashboard"); // Redirect to student dashboard
-        // Correct: Ensure the ID is a valid ObjectId
-        // navigate(`/student/${studentId}`);
-        navigate(`/student/${data._id}/dashboard`); // assuming studentId is returned in data
-        // navigate(`/student/dashboard`);
+        navigate(`/student-home`);
       } else if (data.role === "pgOwner") {
-        navigate("auth/dashboard"); // Redirect to PG owner dashboard
+        navigate("/owner-home");
       } else {
         console.error("Unknown role:", data.role);
-        // Optionally, redirect to a default page or show an error
       }
     } catch (error) {
       console.error("Login failed:", error.message);
@@ -50,46 +54,47 @@ const App = () => {
     try {
       const data = await register(userData);
       console.log("Registered successfully:", data);
-      // Optionally redirect to login form or dashboard after registration
-      navigate("/login"); // Redirect to login after registration
+      navigate("/login");
     } catch (error) {
       console.error("Registration failed:", error.message);
     }
   };
 
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="auth/dashboard" element={<Dashboard />} />
-      <Route path="/login" element={<LoginPage onSubmit={handleLogin} />} />
-      <Route
-        path="/register"
-        element={<RegisterPage onSubmit={handleRegister} />}
-      />
-      <Route path="/add-student" element={<StudentForm />} />
-      <Route path="/students/:id/edit" element={<StudentForm />} />
-      <Route path="/students" element={<StudentList />} />
-      <Route path="/student/:id" element={<StudentDetails />} />
-      <Route path="/students/:id/add-payment" element={<AddPayment />} />
-      <Route path="/auth/payment-history" element={<PaymentHistory />} />
-      <Route
-        path="/students/:id/payment-history"
-        element={<StudentPayment />}
-      />
-      <Route
-        path="/student/:id/profile"
-        element={<StudentProfile/>}
-      />
-       <Route
-        path="/student/:id/payments"
-        element={<StudentPayments/>}
-      />
-      <Route path="/auth/register-pg" element={<PgRegistrationForm />} />
-      <Route path="/auth/pg-status" element={<PgData />} />
-      <Route path="/student/:id/dashboard" element={<StudentDashboard />} />
-      {/* <Route path="/student/dashboard" element={<StudentDashboard />} /> */}
-    </Routes>
+    <Suspense fallback={<LoadingSpinner />}>
+      <Routes location={location} key={location.key}>
+        <Route path="/" element={<HomePage />} />
+        <Route path="auth/dashboard" element={<Dashboard />} />
+        <Route path="/owner-home" element={<OwnerHome />} />
+        <Route path="/student-home" element={<StudentHome />} />
+        <Route path="/login" element={<MemoizedLoginPage onSubmit={handleLogin} />} />
+        <Route path="/register" element={<MemoizedRegisterPage onSubmit={handleRegister} />} />
+        <Route path="/add-student" element={<StudentForm />} />
+        <Route path="/students/:id/edit" element={<StudentForm />} />
+        <Route path="/students" element={<StudentList />} />
+        <Route path="/student/:id" element={<StudentDetails />} />
+        <Route path="/students/:id/add-payment" element={<AddPayment />} />
+        <Route path="/auth/payment-history" element={<PaymentHistory />} />
+        <Route path="/students/:id/payment-history" element={<StudentPayment />} />
+        <Route path="/student/:id/profile" element={<StudentProfile />} />
+        <Route path="/student/:id/payments" element={<StudentPayments />} />
+        <Route path="/auth/register-pg" element={<PgRegistrationForm />} />
+        <Route path="/auth/pg-status" element={<PgData />} />
+        <Route path="/student/:id/dashboard" element={<StudentDashboard />} />
+        <Route path="/pg-listing" element={<PGListings />} />
+        <Route path="/verify" element={<Verify />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
+      </Routes>
+    </Suspense>
   );
 };
 
-export default App;
+export default memo(App);
+
+
+
+
+
+
+

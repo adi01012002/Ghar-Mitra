@@ -5,7 +5,7 @@ import  {fetchStudentByIdAction,deleteStudentAction}  from '../redux/actions/stu
 import { fetchStudentPaymentsAction } from '../redux/actions/paymentActions';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import '../styles/StudentDetails.css';
+
 
 
 const StudentDetails = () => {
@@ -60,30 +60,39 @@ const handleAddPaymentClick = () => {
         navigate(path);
     };
     return (
-        <>
-        <div className="student-details-container">
-        <button className="back-button" onClick={() => handleNavigation("/students")}>
-            Go To Students
-        </button>
+        <div className="min-h-screen bg-gradient-to-b from-purple-100 to-white">
+            {/* Navbar */}
+            <nav className="flex items-center justify-between bg-white px-8 py-4 shadow-md border-b border-purple-200">
+                <button onClick={() => handleNavigation('/students')} className="text-lg font-bold text-purple-700">Students</button>
+                <div className="relative">
+                    {/* Optionally add user/profile menu here if available */}
+                </div>
+            </nav>
+
+            {/* Student Card */}
+            <div className="max-w-xl mx-auto mt-12">
+                <div className="bg-white rounded-2xl p-8 shadow-lg border border-purple-100">
+                    <h2 className="text-3xl font-extrabold text-purple-700 mb-4 text-center">{student.username}</h2>
+                    <div className="space-y-2 text-lg">
+                        <p><span className="font-semibold">Pg-Name:</span> {student?.pgId?.name}</p>
+                        {/* <p><span className="font-semibold">Pg-Owner:</span> {student?.createdBy?.username}</p> */}
+                        <p><span className="font-semibold">Year:</span> {student.year}</p>
+                        <p><span className="font-semibold">Age:</span> {student.age}</p>
+                        <p><span className="font-semibold">Email:</span> {student.email}</p>
+                        <p><span className="font-semibold">Phone Number:</span> {student.phone}</p>
+                        <p><span className="font-semibold">Address:</span> {student.address}</p>
+                    </div>
+                    <div className="flex flex-wrap gap-4 mt-8 justify-center">
+                        <button onClick={handleUpdateClick} className="px-5 py-2 rounded-xl bg-blue-600 text-white font-semibold shadow hover:bg-blue-700 transition-colors">Update</button>
+                        <button onClick={handleDeleteClick} className="px-5 py-2 rounded-xl bg-red-500 text-white font-semibold shadow hover:bg-red-600 transition-colors">Delete</button>
+                        <button onClick={handleAddPaymentClick} className="px-5 py-2 rounded-xl bg-purple-600 text-white font-semibold shadow hover:bg-purple-700 transition-colors">Add Payment</button>
+                        <button onClick={handlePaymentClick} className="px-5 py-2 rounded-xl bg-green-600 text-white font-semibold shadow hover:bg-green-700 transition-colors">View Payment History</button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div className="student-card">
-        <h2>{student.username}</h2>
-        <p><strong>Pg-Name:</strong> {student?.pgId?.name}</p>
-        {/* <p><strong>Pg-Owner:</strong> {student?.createdBy?.username}</p> */}
-        <p><strong>Year:</strong> {student.year}</p>
-        <p><strong>Age:</strong> {student.age}</p>
-        <p><strong>Email:</strong> {student.email}</p>
-        <p><strong>Phone Number:</strong>{student.phone}</p>
-        <p> <strong>Address:</strong>{student.address}</p>
-        <div className="student-actions">
-        <button onClick={handleUpdateClick} className="action-button">Update</button>
-        <button onClick={handleDeleteClick} className="action-button delete-button">Delete</button>
-        <button onClick={handleAddPaymentClick} className="action-button">Add Payment </button>
-        <button onClick={handlePaymentClick} className="action-button">View Payment History</button>
-        </div>
-    </div></>
-        
     );
 };
 
 export default StudentDetails;
+
