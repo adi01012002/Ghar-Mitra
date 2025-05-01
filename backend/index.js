@@ -119,12 +119,12 @@ const httpServer = createServer(app); // Create HTTP server
 // socketServer(io);
 
 // Use CORS to allow requests from your frontend
-const corsOptions = {
-  origin: "http://localhost:5173",
-  optionsSuccessStatus: 200,
-  credentials: true,
-};
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: "http://localhost:5173",
+//   optionsSuccessStatus: 200,
+//   credentials: true,
+// };
+app.use(cors());
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
