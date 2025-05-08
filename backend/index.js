@@ -88,7 +88,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import bodyParser from "body-parser";
 import { createServer } from 'http'; // Add this import
-// import path from "path";
+import path from "path";
 // import { Server } from 'socket.io'; // Add this import
 
 // const http = require('http');
@@ -97,6 +97,7 @@ const PORT=process.env.PORT
 
 import authRoutes from "./routes/authRoutes.js";
 import pgRoutes from "./routes/pgRoutes.js";
+import { fileURLToPath } from 'url';
 // import accountRoutes from "./routes/accountRoutes.js";
 import studentRoutes from "./routes/studentRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
@@ -138,12 +139,11 @@ app.use("/pg", pgRoutes);
 // app.use("/account", accountRoutes);
 // app.use("/onlinePayment", onlinePaymentRoutes);
 
-// After all API routes
-// app.use(express.static(path.join(__dirname, 'client/build')));
+//After all API routes
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-// });
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 // Database connection
 mongoose.connect(
