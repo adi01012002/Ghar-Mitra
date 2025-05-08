@@ -88,7 +88,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import bodyParser from "body-parser";
 import { createServer } from 'http'; // Add this import
-import path from "path";
+// import path from "path";
 // import { Server } from 'socket.io'; // Add this import
 
 // const http = require('http');
@@ -139,11 +139,11 @@ app.use("/pg", pgRoutes);
 // app.use("/onlinePayment", onlinePaymentRoutes);
 
 // After all API routes
-app.use(express.static(path.join(__dirname, 'client/build')));
+// app.use(express.static(path.join(__dirname, 'client/build')));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-});
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+// });
 
 // Database connection
 mongoose.connect(
