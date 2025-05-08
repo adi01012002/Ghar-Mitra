@@ -137,6 +137,13 @@ app.use("/pg", pgRoutes);
 // app.use("/account", accountRoutes);
 // app.use("/onlinePayment", onlinePaymentRoutes);
 
+// After all API routes
+app.use(express.static(path.join(__dirname, 'client/build')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
+
 // Database connection
 mongoose.connect(
   "mongodb+srv://adi01012004:9Zjd0LtfEDFKN13K@cluster0.4zo0h.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
