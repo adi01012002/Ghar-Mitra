@@ -1,0 +1,1 @@
+import{j as o}from"./index-AlR7mNU9.js";import{A as t}from"./AuthForm-08aLbC4c.js";import"./authActions-3y-Kchyy.js";const n=({onSubmit:r})=>o.jsx("div",{className:"login-container",children:o.jsx(t,{isLogin:!0,onSubmit:r})});export{n as default};

@@ -1,0 +1,1 @@
+import{j as r}from"./index-AlR7mNU9.js";import{A as t}from"./AuthForm-08aLbC4c.js";import"./authActions-3y-Kchyy.js";const m=({onSubmit:s})=>r.jsx("div",{children:r.jsx(t,{isLogin:!1,onSubmit:s})});export{m as default};
