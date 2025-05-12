@@ -11,7 +11,7 @@ export const register = async (userData) => {
     const response = await axios.post(`${API_BASE_URL}/auth/register`, userData, {
       headers: { "Content-Type": "application/json" },
     });
-
+// helo my name is Aditya 
     // Ensure success response is only logged when status is 2xx
     if (response.status >= 200 && response.status < 300) {
       console.log("Registration successful, response data:", response.data);
