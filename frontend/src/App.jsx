@@ -67,7 +67,7 @@ const App = () => {
         <Route path="auth/dashboard" element={<Dashboard />} />
         <Route path="/owner-home" element={<OwnerHome />} />
         <Route path="/student-home" element={<StudentHome />} />
-        <Route path="https://ghar-mitra.onrender.com/login" element={<MemoizedLoginPage onSubmit={handleLogin} />} />
+        <Route path="/login" element={<MemoizedLoginPage onSubmit={handleLogin} />} />
         <Route path="/register" element={<MemoizedRegisterPage onSubmit={handleRegister} />} />
         <Route path="/add-student" element={<StudentForm />} />
         <Route path="/students/:id/edit" element={<StudentForm />} />
