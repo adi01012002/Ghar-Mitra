@@ -143,12 +143,20 @@ app.use("/pg", pgRoutes);
 console.log(import.meta.url)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+console.log(__dirname,"dir")
+console.log(__filename,"file")
 
-app.use(express.static(path.join(__dirname, 'dist')));
-app.use(express.static('dist'))
+// app.use(express.static(path.join(__dirname, 'dist')));
+// app.use(express.static('dist'))
+
+
+const distPath = path.join(__dirname, './dist');
+
+// Serve static assets
+app.use(express.static(distPath));
 
 app.get('*', (req, res) => {
- res.sendFile(path.join(__dirname, 'dist','index.html'));
+ res.sendFile(path.join(__dirname, './dist','index.html'));
 });
 
 
