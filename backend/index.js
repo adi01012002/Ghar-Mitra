@@ -144,13 +144,13 @@ console.log(import.meta.url)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(express.static(path.join(__dirname, './dist')));
+app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static('dist'))
 
 app.get('*', (req, res) => {
- res.sendFile(path.join(__dirname, './dist','index.html'));
+ res.sendFile(path.join(__dirname, 'dist','index.html'));
 });
 
-app.use(express.static('dist'))
 
 // Database connection
 mongoose.connect(
