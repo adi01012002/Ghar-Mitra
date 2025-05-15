@@ -140,14 +140,15 @@ app.use("/pg", pgRoutes);
 // app.use("/onlinePayment", onlinePaymentRoutes);
 
 //After all API routes
+console.log(import.meta.url)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-//app.use(express.static(path.join(__dirname, './client')));
+app.use(express.static(path.join(__dirname, './dist')));
 
-//app.get('*', (req, res) => {
-//  res.sendFile(path.join(__dirname, './client/index.html'));
-//});
+app.get('*', (req, res) => {
+ res.sendFile(path.join(__dirname, './dist','index.html'));
+});
 
 app.use(express.static('dist'))
 
